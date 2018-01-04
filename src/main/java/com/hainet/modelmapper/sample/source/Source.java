@@ -8,6 +8,9 @@ public class Source {
     // Flat to flat
     private int flatValue;
 
+    // Skipped
+    private boolean skipped;
+
     // Nested to flat
     // Name strict
     @Data

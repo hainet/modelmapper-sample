@@ -9,7 +9,10 @@ public class Destination {
     private int flatValue;
 
     // Unmapped
-    private int unmapped;
+    private boolean unmapped;
+
+    // Skipped
+    private boolean skipped;
 
     // Nested to flat
     // Name strict

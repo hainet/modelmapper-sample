@@ -25,6 +25,9 @@ public class ModelMapperTest {
         // Flat
         source.setFlatValue(1);
 
+        // Skipped
+        source.setSkipped(true);
+
         // Nested
         final Source.NestedSource nestedSource = new Source.NestedSource();
         nestedSource.setFlatValue(1);
@@ -55,7 +58,23 @@ public class ModelMapperTest {
         final Destination destination = new Destination();
         mapper.map(source, destination);
 
-        assertThat(destination.getUnmapped(), is(0));
+        assertThat(destination.isUnmapped(), is(false));
+    }
+
+    @Test
+    public void skipped() {
+        final PropertyMap<Source, Destination> skippedMap = new PropertyMap<Source, Destination>() {
+            @Override
+            protected void configure() {
+                skip().setSkipped(source.isSkipped());
+            }
+        };
+        mapper.addMappings(skippedMap);
+
+        final Destination destination = new Destination();
+        mapper.map(source, destination);
+
+        assertThat(destination.isSkipped(), is(false));
     }
 
     @Test
@@ -80,7 +99,6 @@ public class ModelMapperTest {
 
     @Test
     public void nestedToFlatByPropertyMap() {
-        // Mapを作成してMapperに設定する。
         final PropertyMap<Source, Destination> userMap = new PropertyMap<Source, Destination>() {
             @Override
             protected void configure() {
@@ -99,7 +117,6 @@ public class ModelMapperTest {
 
     @Test
     public void nestedToFlatByLooseMatchingStrategy() {
-        // マッチングの規約を緩める。
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
 
         final Destination destination = new Destination();
