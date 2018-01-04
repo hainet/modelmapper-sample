@@ -8,6 +8,9 @@ public class Destination {
     // Flat to flat
     private int flatValue;
 
+    // Unmapped
+    private int unmapped;
+
     // Nested to flat
     // Name strict
     private int nestedSourceFlatValue;

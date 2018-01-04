@@ -43,12 +43,19 @@ public class ModelMapperTest {
     }
 
     @Test
-    public void flat() {
+    public void flatToFlat() {
         final Destination destination = new Destination();
         mapper.map(source, destination);
 
-        // Flat to flat
         assertThat(destination.getFlatValue(), is(1));
+    }
+
+    @Test
+    public void unmapped() {
+        final Destination destination = new Destination();
+        mapper.map(source, destination);
+
+        assertThat(destination.getUnmapped(), is(0));
     }
 
     @Test
@@ -56,7 +63,6 @@ public class ModelMapperTest {
         final Destination destination = new Destination();
         mapper.map(source, destination);
 
-        // Nested
         // CamelCaseに従っている限りはどのようなアナグラムも検出する。
         // ネストされた型 + 型のフィールド名(省略込)
         assertThat(destination.getNestedSourceFlatValue(), is(1));
