@@ -5,6 +5,9 @@ import lombok.Data;
 @Data
 public class Destination {
 
+    // Map to flat
+    private String key;
+
     // Flat to flat
     private int flatValue;
 

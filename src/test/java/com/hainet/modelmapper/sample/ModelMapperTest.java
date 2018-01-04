@@ -8,19 +8,31 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.modelmapper.convention.MatchingStrategies;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class ModelMapperTest {
 
     private ModelMapper mapper;
+    private Map<String, Object> map;
+    private int[] intArray;
     private Source source;
 
     @Before
     public void before() {
         mapper = new ModelMapper();
 
+        map = new HashMap<>();
         source = new Source();
+
+        // Map to flat
+        map.put("key", "value");
+
+        // Array mapping
+        intArray = new int[]{1, 2, 3};
 
         // Flat
         source.setFlatValue(1);
@@ -43,6 +55,21 @@ public class ModelMapperTest {
         source.setFooValue(1);
         source.setId(1);
         source.setPassword("password");
+    }
+
+    @Test
+    public void mapToFlat() {
+        final Destination destination = new Destination();
+        mapper.map(map, destination);
+
+        assertThat(destination.getKey(), is("value"));
+    }
+
+    @Test
+    public void arrayMapping() {
+        double[] doubleArray = mapper.map(intArray, double[].class);
+
+        assertThat(doubleArray, is(new double[]{1.0, 2.0, 3.0}));
     }
 
     @Test
